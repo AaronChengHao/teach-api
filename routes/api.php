@@ -14,8 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+
+// 教师路由组
+Route::group(['middleware' => 'auth:teacher-api','prefix' => 't'], function (Illuminate\Routing\Router $router) {
+    $router->get('/me','App\Http\Controllers\Api\AuthController@me');
+
+    $router->resource('courses','App\Http\Controllers\Api\CourseController');
+});
+
+// 学生路由组
+Route::group(['middleware' => 'auth:teacher','prefix' => 's'], function (Illuminate\Routing\Router $router) {
+    $router->get('/me','App\Http\Controllers\Api\AuthController@me');
 });
 
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');

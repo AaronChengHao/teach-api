@@ -45,18 +45,13 @@ return [
 //            'provider' => 'users',
 //            'hash' => false,
 //        ],
-        'teacher' => [
+        'teacher-api' => [
             'driver' => 'passport',
             'provider' => 'teachers'
         ],
-        'student' => [
+        'student-api' => [
             'driver' => 'passport',
             'provider' => 'students'
-        ],
-
-        'api' => [
-            'driver' => 'passport',
-            'provider' => 'teachers',
         ],
     ],
 

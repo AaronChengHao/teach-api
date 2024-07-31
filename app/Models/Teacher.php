@@ -3,13 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
-use Laravel\Passport\Client as PassportClient;
-class Teacher extends PassportClient
+class Teacher extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
+
+    /**
+     * 查找给定用户名的用户实例。
+     */
+    public function findForPassport(string $username): User
+    {
+        return $this->where('username', $username)->first();
+    }
+
+    /**
+     * 验证用户的密码以获得 Passport 密码授权。
+     */
+    public function validateForPassportPasswordGrant(string $password): bool
+    {
+        return true;
+    }
 }
