@@ -23,6 +23,12 @@ Route::group(['middleware' => 'auth:teacher-api','prefix' => 't'], function (Ill
     $router->get('/me','App\Http\Controllers\Api\AuthController@me');
 
     $router->resource('courses','App\Http\Controllers\Api\CourseController');
+    $router->resource('invoices','App\Http\Controllers\Api\InvoiceController');
+    $router->resource('students','App\Http\Controllers\Api\StudentController');
+
+
+    $router->post('invoices/{invoice}/send','App\Http\Controllers\Api\InvoiceController@send');
+
 });
 
 // 学生路由组

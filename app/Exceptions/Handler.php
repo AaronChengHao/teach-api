@@ -2,11 +2,18 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\Api\Trait\ResponseTrait;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Routing\Router;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ResponseTrait;
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -26,5 +33,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->is('api/*')) {
+            return response()->json($this->apiError(message:$e->getMessage()));
+        }
+        return parent::render($request, $e);
     }
 }

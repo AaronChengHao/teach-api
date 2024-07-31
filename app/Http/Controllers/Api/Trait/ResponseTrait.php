@@ -19,7 +19,7 @@ trait ResponseTrait
         return [
             'code' => $code,
             'data' => $data,
-            'message' => 'success'
+            'message' => $message
         ];
     }
 }

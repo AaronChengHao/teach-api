@@ -26,4 +26,9 @@ class Teacher extends Authenticatable
     {
         return true;
     }
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
+    }
 }
