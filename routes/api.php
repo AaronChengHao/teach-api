@@ -21,18 +21,14 @@ use Illuminate\Support\Facades\Route;
 // 教师路由组
 Route::group(['middleware' => 'auth:teacher-api','prefix' => 't'], function (Illuminate\Routing\Router $router) {
     $router->get('/me','App\Http\Controllers\Api\AuthController@me');
-
     $router->resource('courses','App\Http\Controllers\Api\CourseController');
     $router->resource('invoices','App\Http\Controllers\Api\InvoiceController');
     $router->resource('students','App\Http\Controllers\Api\StudentController');
-
-
     $router->post('invoices/{invoice}/send','App\Http\Controllers\Api\InvoiceController@send');
-
 });
 
 // 学生路由组
-Route::group(['middleware' => 'auth:teacher','prefix' => 's'], function (Illuminate\Routing\Router $router) {
+Route::group(['middleware' => 'auth:student-api','prefix' => 's'], function (Illuminate\Routing\Router $router) {
     $router->get('/me','App\Http\Controllers\Api\AuthController@me');
 });
 
