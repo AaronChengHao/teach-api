@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Trait;
 trait ResponseTrait
 {
 
-    public function apiSuccess($data)
+    public function apiSuccess($data = [])
     {
         return [
             'code' => 0,

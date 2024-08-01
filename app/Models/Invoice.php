@@ -23,6 +23,11 @@ class Invoice extends Model
      */
     public const STATUS_WAIT_PAY = '2';
 
+    /**
+     * 已支付
+     */
+    public const STATUS_PAYED = '3';
+
 
     public function teacher()
     {

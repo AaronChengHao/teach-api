@@ -25,17 +25,9 @@ class Test extends Command
      */
     public function handle()
     {
-//        require_once dirname(__FILE__).'/vendor/autoload.php';
-
         define('OMISE_PUBLIC_KEY', 'pkey_test_60lpfhmbjbvguxhyhlz');
         define('OMISE_SECRET_KEY', 'skey_test_60lpfho6cexh3xxknos');
         define('OMISE_API_VERSION', '2019-05-29');
-
-        $account = \OmiseAccount::retrieve();
-
-//        var_dump($account);
-        echo $account['email']; // your email will be printed on a screen.
-
 
         $token = \OmiseToken::create([
             'card' => [

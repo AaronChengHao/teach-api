@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth:student-api','prefix' => 's'], function (Ill
     $router->resource('invoices','App\Http\Controllers\Api\Student\InvoiceController');
     $router->resource('courses','App\Http\Controllers\Api\Student\CourseController');
     $router->resource('students','App\Http\Controllers\Api\Student\StudentController');
+
+    $router->post('/invoices/{invoice}/card-pay','App\Http\Controllers\Api\Student\OmiseController@card');
 });
 
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');

@@ -14,4 +14,12 @@ class Student  extends Authenticatable
     {
         return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
     }
+
+    /**
+     * 课程
+     */
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class)->using(StudentCourse::class);
+    }
 }
