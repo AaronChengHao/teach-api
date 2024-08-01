@@ -20,12 +20,12 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required',
             'password' => 'required',
-            'type' => 'required'
+            'type'     => 'required'
         ]);
-        $type = $request->input('type'); // 'teacher' or 'student'
+        $type     = $request->input('type'); // 'teacher' or 'student'
         $username = $request->input('username');
         $password = $request->input('password');
-        $guard = $type === 'teacher' ? 'teacher' : 'student';
+        $guard    = $type === 'teacher' ? 'teacher' : 'student';
 
         $user = null;
 
@@ -33,26 +33,26 @@ class AuthController extends Controller
             case 'teacher':
                 $user = Teacher::query()->whereAccount($username)->wherePassword($password)->first();
                 break;
-                case 'student':
-                    $user = Student::query()->whereAccount($username)->wherePassword($password)->first();
-                    break;
+            case 'student':
+                $user = Student::query()->whereAccount($username)->wherePassword($password)->first();
+                break;
             default:
                 throw new \Exception('xxxx');
         }
 
-        if (empty($user)){
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (empty($user)) {
+            return $this->apiError(message: '账号或密码错误');
         }
 
-        $result = [];
+        $result      = [];
         $tokenResult = $user->createToken('Personal Access Token');
 
-        $result['user'] = $user;
+        $result['user']      = $user;
         $result['metaToken'] = $tokenResult->token;
-        $result['token'] = [
+        $result['token']     = [
             'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
+            'token_type'   => 'Bearer',
+            'expires_at'   => Carbon::parse($tokenResult->token->expires_at)->toDateTimeString(),
         ];
         return $this->apiSuccess($result);
     }
