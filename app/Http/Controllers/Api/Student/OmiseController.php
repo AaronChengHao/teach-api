@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Student;
 use App\Http\Controllers\Api\Trait\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
+use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use OmiseCharge;
 use OmiseToken;
@@ -72,15 +74,16 @@ class OmiseController extends Controller
             return $this->apiError(message: $failureMessage);
         }
 
+        DB::transaction(function () use ($invoice,$tokenStr, $request){
+            $invoice->status = Invoice::STATUS_PAYED;
+            $invoice->pay_at = date('Y-m-d H:i:s');
+            $invoice->omise_token_id = $tokenStr;
+            $invoice->saveOrFail();
 
-        $invoice->status = Invoice::STATUS_PAYED;
-        $invoice->pay_at = date('Y-m-d H:i:s');
-        $invoice->omise_token_id = $tokenStr;
-        $invoice->saveOrFail();
-
-        // 追加课程
-
-
+            /**@var $student Student **/
+            $student = $request->user();
+            $student->courses()->attach(1);
+        });
 
         return $this->apiSuccess();
     }
