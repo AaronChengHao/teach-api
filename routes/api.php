@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth:teacher-api','prefix' => 't'], function (Ill
 // 学生路由组
 Route::group(['middleware' => 'auth:student-api','prefix' => 's'], function (Illuminate\Routing\Router $router) {
     $router->get('/me','App\Http\Controllers\Api\AuthController@me');
+    $router->resource('invoices','App\Http\Controllers\Api\Student\InvoiceController');
+    $router->resource('courses','App\Http\Controllers\Api\Student\CourseController');
+    $router->resource('students','App\Http\Controllers\Api\Student\StudentController');
 });
 
 Route::post('/login', 'App\Http\Controllers\Api\AuthController@login');
