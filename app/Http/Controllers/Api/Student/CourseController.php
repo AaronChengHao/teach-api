@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Student;
 use App\Http\Controllers\Api\Trait\ResponseTrait;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -16,8 +17,9 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        // 使用分页获取 Post 模型的实例
-        $posts = Course::query()->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
+        /** @var $student Student **/
+        $student = $request->user();
+        $posts = $student->courses()->with('teacher')->orderByDesc('id')-> paginate($request->input('size',10));
         return $this->apiSuccess($posts);
     }
 

@@ -21,7 +21,7 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $student = $request->user();
-        $posts = Invoice::query()->with(['teacher','student','course'])->whereStudentId($student->id)->whereStatus(Invoice::STATUS_WAIT_PAY)->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
+        $posts = Invoice::query()->with(['teacher','student','course'])->whereStudentId($student->id)->whereIn('status',[Invoice::STATUS_WAIT_PAY,Invoice::STATUS_PAYED])->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
         return $this->apiSuccess($posts);
     }
 

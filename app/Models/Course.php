@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
+use App\Models\Trait\UtilTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    use HasFactory;
+    use HasFactory,UtilTrait;
 
-    protected function serializeDate(\DateTimeInterface $date)
+    public function students()
     {
-        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
+        return $this->belongsToMany(Student::class)->using(CourseStudent::class)->withTimestamps();
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
     }
 }

@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Trait\UtilTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    use HasFactory;
+    use HasFactory,UtilTrait;
 
     protected $relations = ['teacher', 'course'];
 
-    protected $appends = ['status_text'];
+    protected $appends = ['status_text','status_class'];
 
     /**
      * 待发送
@@ -42,20 +43,36 @@ class Invoice extends Model
         return $this->belongsTo(Student::class, 'student_id');
     }
 
-    protected function serializeDate(\DateTimeInterface $date)
-    {
-        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
-    }
-
     public function getStatusTextAttribute()
     {
         $text = '';
         switch ($this->status) {
-            case 1:
+            case Invoice::STATUS_WAIT_SEND:
                 $text = '待发送';
                 break;
-            case 2:
+            case Invoice::STATUS_WAIT_PAY:
                 $text = '待支付';
+                break;
+            case Invoice::STATUS_PAYED:
+                $text = '已支付';
+                break;
+            default:
+                break;
+        }
+        return $text;
+    }
+    public function getStatusClassAttribute()
+    {
+        $text = '';
+        switch ($this->status) {
+            case Invoice::STATUS_WAIT_SEND:
+                $text = 'primary';
+                break;
+            case Invoice::STATUS_WAIT_PAY:
+                $text = 'warning';
+                break;
+            case Invoice::STATUS_PAYED:
+                $text = 'success';
                 break;
             default:
                 break;

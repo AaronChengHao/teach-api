@@ -20,7 +20,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Invoice::query()->with(['teacher','student','course'])->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
+        $posts = Invoice::query()->with(['teacher', 'student', 'course'])->orderByDesc('id')->paginate($request->input('size', 10)); // 每页显示10条数据
         return $this->apiSuccess($posts);
     }
 
@@ -38,23 +38,35 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'course_id'  => ['required', 'exists:courses,id'],
-            'student_id' => ['required', 'exists:students,id'],
+            // 'course_id'  => ['required', 'exists:courses,id'],
+                'year_month' => ['required'],
+                'student_id' => ['required', 'exists:students,id'],
         ]);
 
-        $courseId  = $request->input('course_id');
+        $yearMonth = $request->input('year_month');
         $studentId = $request->input('student_id');
         $teacherId = $request->user()->id;
 
-        $course = Course::findOrFail($courseId);
+        $courses = Course::whereYearMonth($yearMonth)->get();
 
-        $invoice             = new Invoice();
-        $invoice->course_id  = $courseId;
-        $invoice->student_id = $studentId;
-        $invoice->teacher_id = $teacherId;
-        $invoice->price      = $course->price;
-        $invoice->status     = Invoice::STATUS_WAIT_SEND;
-        $invoice->saveOrFail();
+        if ($courses->isEmpty()) {
+            return $this->apiError(message: '未找到指定年月的课程，请您重新选择');
+        }
+
+        foreach ($courses as $course) {
+            $courseId = $course->id;
+            $invoice  = Invoice::whereCourseId($courseId)->whereStudentId($studentId)->whereStatus(Invoice::STATUS_WAIT_SEND)->exists();
+            if ($invoice) {
+                continue;
+            }
+            $invoice             = new Invoice();
+            $invoice->course_id  = $courseId;
+            $invoice->student_id = $studentId;
+            $invoice->teacher_id = $teacherId;
+            $invoice->price      = $course->price;
+            $invoice->status     = Invoice::STATUS_WAIT_SEND;
+            $invoice->saveOrFail();
+        }
 
         return $this->apiSuccess([]);
 
@@ -96,7 +108,7 @@ class InvoiceController extends Controller
     /**
      * 发送
      *
-     * @return void
+     * @return array
      */
     public function send(Invoice $invoice)
     {

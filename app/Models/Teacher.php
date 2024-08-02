@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Trait\UtilTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -9,7 +10,7 @@ use Laravel\Passport\HasApiTokens;
 
 class Teacher extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable,UtilTrait;
 
     /**
      * 查找给定用户名的用户实例。
@@ -27,8 +28,4 @@ class Teacher extends Authenticatable
         return true;
     }
 
-    protected function serializeDate(\DateTimeInterface $date)
-    {
-        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
-    }
 }

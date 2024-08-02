@@ -33,15 +33,15 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-
         $name = $request->input('name');
         $price = $request->input('price');
-        $date = $request->input('date');
+        $yearMonth = $request->input('year_month');
+        $students = $request->input('student_ids');
 
         $course = new Course();
         $course->name = $name;
         $course->price = $price;
-        $course->date = $date;
+        $course->year_month = $yearMonth;
         $course->teacher_id = $request->user()->id;
 
         $course->saveOrFail();
@@ -72,12 +72,12 @@ class CourseController extends Controller
     {
         $name = $request->input('name');
         $price = $request->input('price');
-        $date = $request->input('date');
+        $yearMonth = $request->input('year_month');
 
         $course =Course::find($id);
         $course->name = $name;
         $course->price = $price;
-        $course->date = $date;
+        $course->year_month = $yearMonth;
 
         $course->saveOrFail();
 

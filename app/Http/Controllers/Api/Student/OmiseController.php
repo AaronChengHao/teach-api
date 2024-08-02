@@ -82,7 +82,7 @@ class OmiseController extends Controller
 
             /**@var $student Student **/
             $student = $request->user();
-            $student->courses()->attach(1);
+            $student->courses()->attach($invoice->course_id);
         });
 
         return $this->apiSuccess();
