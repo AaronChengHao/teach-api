@@ -34,7 +34,12 @@ class AuthController extends Controller
         $clientId = $oauthClient->id;
         $clientKey = $oauthClient->secret;
 
-        $response = Http::asForm()->post('http://nginx:81/oauth/token', [
+        $host = 'nginx:81';
+        if (app()->environment() == 'testing') {
+            $host = 'www.comiru-api.test';
+        }
+
+        $response = Http::asForm()->post("http://{$host}/oauth/token", [
             'grant_type' => 'password',
             'client_id' => $clientId,
             'client_secret' => $clientKey,

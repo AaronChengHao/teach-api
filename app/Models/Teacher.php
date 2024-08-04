@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Trait\UtilTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use Laravel\Passport\HasApiTokens;
 
 
@@ -26,6 +28,7 @@ class Teacher extends Authenticatable
     public function validateForPassportPasswordGrant(string $password): bool
     {
         return true;
+        return Hash::check($this->password,Hash::make($password));
     }
 
 }
