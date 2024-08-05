@@ -14,5 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/index.html');
+//    return view('welcome');
+//    return file_get_contents(public_path('index.html'));
+//    return view(public_path('index.html'));
 });
