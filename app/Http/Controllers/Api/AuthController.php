@@ -35,11 +35,17 @@ class AuthController extends Controller
         $clientKey = $oauthClient->secret;
 
         $host = 'nginx:81';
+        $protocol = 'http';
         if (app()->environment() == 'testing') {
             $host = 'www.comiru-api.test';
         }
 
-        $response = Http::asForm()->post("http://{$host}/oauth/token", [
+        if (app()->environment() == 'production') {
+            $host = 'poper-ops-interview-05.herokuapp.com';
+            $protocol = 'https';
+        }
+
+        $response = Http::asForm()->post("{$protocol}://{$host}/oauth/token", [
             'grant_type' => 'password',
             'client_id' => $clientId,
             'client_secret' => $clientKey,
