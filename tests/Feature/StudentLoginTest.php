@@ -13,8 +13,8 @@ class StudentLoginTest extends TestCase
      */
     public function test_login(): void
     {
-        $account = 'student1';
-        $password = '111111';
+        $account = 'phpunit-test-1';
+        $password = '123456';
 
         $response = $this->post('/api/login', ['type' => 'student','username' => $account, 'password' => $password]);
 
