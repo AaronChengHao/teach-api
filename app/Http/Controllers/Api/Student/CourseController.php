@@ -8,6 +8,9 @@ use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
+/**
+ * 课程控制器
+ */
 class CourseController extends Controller
 {
     use ResponseTrait;

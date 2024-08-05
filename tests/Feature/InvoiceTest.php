@@ -8,7 +8,7 @@ class InvoiceTest extends TestCase
 {
 
     /**
-     * A basic feature test example.
+     * 创建账单测试
      */
     public function test_index(): void
     {
@@ -33,7 +33,7 @@ class InvoiceTest extends TestCase
         $this->assertTrue($resJson['code'] === 0);
 
         // 创建账单
-        $studentId =1;
+        $studentId = 5;
         $response = $this->post('/api/t/invoices',[
             "year_month" => "2022-12",
             "student_id" => $studentId
@@ -41,8 +41,5 @@ class InvoiceTest extends TestCase
 
         $resJson =  $response->json();
         $this->assertTrue($resJson['code'] === 0);
-
-
-
     }
 }

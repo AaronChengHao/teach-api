@@ -9,7 +9,7 @@ use Tests\TestCase;
 class TeacherLoginTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * 老师登录测试
      */
     public function test_login(): void
     {

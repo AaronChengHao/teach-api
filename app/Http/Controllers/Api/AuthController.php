@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Laravel\Passport\Passport;
 
+/**
+ * 认证控制器
+ */
 class AuthController extends Controller
 {
     use ResponseTrait;

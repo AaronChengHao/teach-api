@@ -15,7 +15,9 @@ class Student  extends Authenticatable
     use HasApiTokens, Notifiable,UtilTrait;
 
     /**
-     * 课程
+     * 关联的课程
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function courses()
     {

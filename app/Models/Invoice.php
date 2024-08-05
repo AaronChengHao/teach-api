@@ -30,19 +30,41 @@ class Invoice extends Model
     public const STATUS_PAYED = '3';
 
 
+    /**
+     * 关联的老师
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function teacher()
     {
         return $this->belongsTo(Teacher::class, 'teacher_id');
     }
+
+    /**
+     * 关联的课程
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
+
+    /**
+     * 关联的学生
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function student()
     {
         return $this->belongsTo(Student::class, 'student_id');
     }
 
+    /**
+     * 状态文本访问器
+     *
+     * @return string
+     */
     public function getStatusTextAttribute()
     {
         $text = '';
@@ -61,6 +83,12 @@ class Invoice extends Model
         }
         return $text;
     }
+
+    /**
+     * 状态class访问器
+     *
+     * @return string
+     */
     public function getStatusClassAttribute()
     {
         $text = '';

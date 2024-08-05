@@ -28,7 +28,7 @@ class Teacher extends Authenticatable
     public function validateForPassportPasswordGrant(string $password): bool
     {
         return true;
-        return Hash::check($this->password,Hash::make($password));
+//        return Hash::check($this->password,Hash::make($password));
     }
 
 }
