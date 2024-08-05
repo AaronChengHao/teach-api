@@ -17,7 +17,7 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         // 使用分页获取 Post 模型的实例
-        $posts = Course::query()->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
+        $posts = Course::query()->whereTeacherId($request->user()->id)->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
         return $this->apiSuccess($posts);
     }
 

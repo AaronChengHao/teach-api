@@ -17,7 +17,7 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $students = Student::query()->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
+        $students = Student::query()->whereTeacherAccount($request->user()->account)->orderByDesc('id')-> paginate($request->input('size',10)); // 每页显示10条数据
         return $this->apiSuccess($students);
     }
 

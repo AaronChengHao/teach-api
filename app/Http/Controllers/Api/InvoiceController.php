@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * 账单控制器
@@ -20,7 +21,7 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Invoice::query()->with(['teacher', 'student', 'course'])->orderByDesc('id')->paginate($request->input('size', 10)); // 每页显示10条数据
+        $posts = Invoice::query()->with(['teacher', 'student', 'course'])->whereTeacherId(Auth::id())->orderByDesc('id')->paginate($request->input('size', 10)); // 每页显示10条数据
         return $this->apiSuccess($posts);
     }
 
