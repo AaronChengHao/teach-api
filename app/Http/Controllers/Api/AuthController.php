@@ -55,7 +55,11 @@ class AuthController extends Controller
         ]);
 
         if  (!$response->successful()) {
-            return $this->apiError(message: $response->json('message'));
+            $errMsg = $response->json('message');
+            if (empty($errMsg)){
+                $errMsg = $response->body();
+            }
+            return $this->apiError(message: $errMsg);
         }
 
         $tokenJson = $response->json();
