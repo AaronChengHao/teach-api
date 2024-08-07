@@ -113,8 +113,10 @@ class InvoiceController extends Controller
      */
     public function send(Invoice $invoice)
     {
-        $invoice->status = Invoice::STATUS_WAIT_PAY;
-        $invoice->saveOrFail();
+        if (\request()->user()->id == $invoice->teacher_id) {
+            $invoice->status = Invoice::STATUS_WAIT_PAY;
+            $invoice->saveOrFail();
+        }
         return $this->apiSuccess([]);
     }
 }
